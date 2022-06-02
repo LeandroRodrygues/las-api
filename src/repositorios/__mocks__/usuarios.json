@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "nome": "Leandro",
+    "urlFotoPerfil": "https://randomuser.me/api/portraits/men/91.jpg"
+  },
+  {
+    "id": 18,
+    "nome": "joao",
+    "urlFotoPerfil": "https://linkinvalidofail.com.br"
+  },
+  {
+    "id": 30,
+    "nome": "leandro goncalves",
+    "urlFotoPerfil": "https://linkinvalidofail.com.br"
+  },
+  {
+    "id": 31,
+    "nome": "leo",
+    "urlFotoPerfil": "https://linkinvalidofail.com.br"
+  },
+  {
+    "id": 32,
+    "nome": "joice",
+    "urlFotoPerfil": "https://linkinvalidofail.com.br"
+  }
+]
