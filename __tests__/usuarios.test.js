@@ -47,4 +47,27 @@ describe("API de usuários", () => {
       },
     ]);
   });
+
+  test("Consultar usuário por um id existente", async () => {
+    const resp = await request.get("/usuarios/1");
+    expect(resp.statusCode).toBe(200);
+    expect(resp.body).toEqual({
+      id: 1,
+      nome: "Leandro",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/men/91.jpg",
+      nomeCompleto: "Leandro g Rodrigues",
+      dataNascimento: "1985-11-09T02:00:00.000Z",
+      rg: "88120",
+      cpf: "02273985485",
+      telefone: "71999498364",
+      celular: "71999998564",
+      email: "leandro@gmail.com",
+      senha: "123456",
+      cep: "42800000",
+      endereco: "Rua santo antonio",
+      numero: 45,
+      complemento: "casa",
+      bairro: "Jacuipe",
+    });
+  });
 });
