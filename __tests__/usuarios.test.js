@@ -70,4 +70,24 @@ describe("API de usuários", () => {
       bairro: "Jacuipe",
     });
   });
+
+  test("Buscar usuário por um id inexistente", async () => {
+    const resp = await request.get("/usuarios/999");
+    expect(resp.statusCode).toBe(404);
+  });
+
+  test("Inserir usuário com dados inválidos", async () => {
+    const resp = await request.post("/usuarios").send({
+      nome: "Leandro",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/men/71.jpg",
+    });
+    expect(resp.statusCode).toBe(400);
+    expect(resp.body).toEqual([
+      {
+        mensagem: "Nome deve ser informado e deve ser único",
+        nome: "nome",
+        valido: false,
+      },
+    ]);
+  });
 });
