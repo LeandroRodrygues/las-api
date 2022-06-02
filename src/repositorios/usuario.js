@@ -5,16 +5,12 @@ class Usuario {
     const sql = "SELECT id, nome, urlFotoPerfil FROM Usuarios";
     return query(sql);
   }
-
-  buscarPorId(id) {
-    const sql = "SELECT id, nome, urlFotoPerfil FROM Usuarios WHERE id = ?";
-    return query(sql, id).then((resultado) => resultado[0]);
-  }
-  adicionar({ nome, urlFotoPerfil }) {
+  adicionar(usuario) {
     const sql = "INSERT INTO Usuarios SET ?";
-    return query(sql, { nome, urlFotoPerfil });
+    return query(sql, usuario);
   }
-  alterar(valores, id) {
+
+  alterar(id, valores) {
     const sql = "UPDATE Usuarios SET ? WHERE id = ?";
     return query(sql, [valores, id]);
   }
@@ -22,50 +18,66 @@ class Usuario {
     const sql = "DELETE FROM Usuarios WHERE id = ?";
     return query(sql, id);
   }
-  buscarPorNome(nome) {
-    const sql =
-      "SELECT id, nome, urlFotoPerfil FROM Usuarios WHERE nome like ?";
-    return query(sql, "%" + nome + "%");
+  async buscaPorId(id) {
+    const sql = "SELECT id, nome, urlFotoPerfil FROM Usuarios WHERE id = ?";
+    const resultados = await query(sql, id);
+    return resultados[0];
   }
+  buscaPorNome(nome) {
+    const sql = "SELECT id, nome, urlFotoPerfil FROM Usuarios WHERE nome = ?";
+    return query(sql, nome);
+  }
+
   isNomeUsuarioUtilizado(nome) {
     const sql = "SELECT * FROM Usuarios WHERE nome = ?";
-    return query(sql, nome).then((res) => {
-      if (res.length > 0) {
+    return query(sql, nome).then((data) => {
+      if (data.length > 0) {
         return true;
       } else {
         return false;
       }
     });
   }
-  buscarDadosPessoais(id) {
+
+  //dados-pessoais
+  listaDadosPessoais(id) {
     const sql =
       "SELECT nomeCompleto, dataNascimento, rg, cpf FROM Usuarios WHERE id = ?";
     return query(sql, id);
   }
-  buscarContatos(id) {
+
+  alterarDadosPessoais(id, valores) {
+    const sql = "UPDATE Usuarios SET ? WHERE id = ?";
+    return query(sql, [valores, id]);
+  }
+
+  //contatos
+  async listaContatos(id) {
     const sql = "SELECT telefone, celular, email FROM Usuarios WHERE id = ?";
-    return query(sql, id);
+    const resultados = await query(sql, id);
+    return resultados[0];
   }
-  buscarEndereco(id) {
+
+  alterarContatos(id, valores) {
+    const sql = "UPDATE Usuarios SET ? WHERE id = ?";
+    return query(sql, [valores, id]);
+  }
+
+  //endereco
+  listaEndereco(id) {
     const sql =
-      "SELECT cep, endereco, numero, complemento, bairro FROM Usuarios WHERE id = ?";
+      "SELECT cep, endereco, numero, complemento FROM Usuarios WHERE id = ?";
     return query(sql, id);
   }
-  alterarDadosPessoais(valores, id) {
+
+  alterarEndereco(id, valores) {
     const sql = "UPDATE Usuarios SET ? WHERE id = ?";
     return query(sql, [valores, id]);
   }
-  alterarContatos(valores, id) {
+  //senha
+  alterarSenha(id, senha) {
     const sql = "UPDATE Usuarios SET ? WHERE id = ?";
-    return query(sql, [valores, id]);
-  }
-  alterarEndereco(valores, id) {
-    const sql = "UPDATE Usuarios SET ? WHERE id = ?";
-    return query(sql, [valores, id]);
-  }
-  alterarSenha(valores, id) {
-    const sql = "UPDATE Usuarios SET ? WHERE id = ?";
-    return query(sql, [valores, id]);
+    return query(sql, [senha, id]);
   }
 }
 

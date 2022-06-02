@@ -1,40 +1,23 @@
-const pool = require("../infraestrutura/database/conexao");
 const fetch = require("node-fetch");
+const repositorio = require("../repositorios/usuario");
 
 class Usuarios {
-  listar(res, next) {
-    const sql = "SELECT * FROM Usuarios";
-    pool.query(sql, (erro, resultados) => {
-      if (erro) {
-        next(erro);
-      } else {
-        res.status(200).json(resultados);
-      }
-    });
+  listar() {
+    return repositorio.listar();
   }
 
-  buscarPorId(id, res, next) {
-    const sql = "SELECT * FROM Usuarios WHERE id = ?";
-    pool.query(sql, id, (erro, resultados) => {
-      const usuario = resultados[0];
-      if (erro) {
-        next(erro);
-      } else {
-        if (usuario) {
-          res.status(200).json(usuario);
-        } else {
-          res.status(404).end();
-        }
+  async adicionar(usuario) {
+    let nomeEhValido = false;
+
+    if (usuario?.nome?.length > 0) {
+      const nomeJaUtilizado = await repositorio.isNomeUsuarioUtilizado(
+        usuario.nome
+      );
+      if (!nomeJaUtilizado) {
+        nomeEhValido = true;
       }
-    });
-  }
-
-  async adicionar(usuario, res, next) {
-    const nomeEhValido =
-      usuario.nome.length > 0 &&
-      (await this.validarNomeUsuarioNaoUtilizado(usuario.nome));
-
-    const urlEhValida = await this.validarURLFotoPerfil(usuario.urlFotoPerfil);
+    }
+    const urlEhValida = await this.validarURLFotoPerfil(usuario?.urlFotoPerfil);
 
     const validacoes = [
       {
@@ -50,55 +33,60 @@ class Usuarios {
     ];
 
     const erros = validacoes.filter((campo) => !campo.valido);
-    const existemErros = erros.length;
+    const existemErros = erros.length > 0;
 
     if (existemErros) {
-      res.status(400).json(erros);
+      throw erros;
     } else {
-      const sql = "INSERT INTO Usuarios SET ?";
-
-      pool.query(sql, usuario, (erro) => {
-        if (erro) {
-          next(erro);
-        } else {
-          res.status(201).json(usuario);
-        }
-      });
+      const resp = await repositorio.adicionar(usuario);
+      return { id: resp.insertId, ...usuario };
     }
   }
 
-  alterar(id, valores, res, next) {
-    const sql = "UPDATE Usuarios SET ? WHERE id = ?";
-    pool.query(sql, [valores, id], (erro) => {
-      if (erro) {
-        next(erro);
-      } else {
-        res.status(200).json(valores);
-      }
-    });
+  alterar(id, valores) {
+    return repositorio.alterar(id, valores);
   }
 
-  excluir(id, res, next) {
-    const sql = "DELETE FROM Usuarios WHERE id = ?";
-    pool.query(sql, id, (erro) => {
-      if (erro) {
-        next(erro);
-      } else {
-        res.status(200).json({ id });
-      }
-    });
+  excluir(id) {
+    return repositorio.excluir(id);
   }
 
-  buscarPorNome(nome, res, next) {
-    const sql = "SELECT * FROM Usuarios WHERE nome like ?";
-    pool.query(sql, "%" + nome + "%", (erro, resultados) => {
-      if (erro) {
-        next(erro);
-      } else {
-        res.status(200).json(resultados);
-      }
-    });
+  buscarPorId(id) {
+    return repositorio.buscaPorId(id);
   }
+  buscarPorNome(nome) {
+    return repositorio.buscaPorNome(nome);
+  }
+
+  ///////////////////////////////////////////////dados-pessoais
+  listaDadosPessoais(id) {
+    return repositorio.listaDadosPessoais(id);
+  }
+
+  /////////////////////////////////////////////////////contatos
+  listaContatos(id) {
+    return repositorio.listaContatos(id);
+  }
+
+  alterarContatos(id, valores) {
+    return repositorio.alterarContatos(id, valores);
+  }
+
+  //////////////////////////////////////////////////////endereco
+  listaEndereco(id) {
+    return repositorio.listaEndereco(id);
+  }
+
+  alterarEndereco(id, valores) {
+    return repositorio.alterarEndereco(id, valores);
+  }
+
+  ///////////////////////////////////////////////////////////senha
+  alterarSenha(id, senha) {
+    return repositorio.alterarSenha(id, senha);
+  }
+
+  //////////////////////////////////////////////////////////validações
 
   async validarURLFotoPerfil(url) {
     try {
@@ -117,23 +105,6 @@ class Usuarios {
     } catch {
       return false;
     }
-  }
-
-  async validarNomeUsuarioNaoUtilizado(nome) {
-    return new Promise((resolve) => {
-      const sql = "SELECT * FROM Usuarios WHERE nome = ?";
-      pool.query(sql, nome, (erro, resultados) => {
-        if (erro) {
-          resolve(false);
-        } else {
-          if (resultados.length > 0) {
-            resolve(false);
-          } else {
-            resolve(true);
-          }
-        }
-      });
-    });
   }
 }
 
