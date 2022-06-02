@@ -52,22 +52,22 @@ describe("API de usuários", () => {
     const resp = await request.get("/usuarios/1");
     expect(resp.statusCode).toBe(200);
     expect(resp.body).toEqual({
-      bairro: "Jacuipe",
-      celular: "71999998564",
-      cep: "42800000",
-      complemento: "casa",
-      cpf: "02273985485",
-      dataNascimento: "1985-11-09T02:00:00.000Z",
-      email: "leandro@gmail.com",
-      endereco: "Rua santo antonio",
       id: 1,
       nome: "Leandro",
-      nomeCompleto: "Leandro g Rodrigues",
-      numero: 45,
-      rg: "88120",
-      senha: "123456",
-      telefone: "71999498364",
       urlFotoPerfil: "https://randomuser.me/api/portraits/men/91.jpg",
+      nomeCompleto: "Leandro g Rodrigues",
+      dataNascimento: "1985-11-09T02:00:00.000Z",
+      rg: "88120",
+      cpf: "02273985485",
+      telefone: "71999498364",
+      celular: "71999998564",
+      email: "leandro@gmail.com",
+      senha: "123456",
+      cep: "42800000",
+      endereco: "Rua santo antonio",
+      numero: 45,
+      complemento: "casa",
+      bairro: "Jacuipe",
     });
   });
 
