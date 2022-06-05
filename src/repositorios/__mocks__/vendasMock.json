@@ -1,0 +1,7 @@
+[
+  { "id": 1, "descricao": "lanche" },
+  { "id": 2, "descricao": "almoço" },
+  { "id": 3, "descricao": "bebida" },
+  { "id": 4, "descricao": "comida" },
+  { "id": 5, "descricao": "petisco" }
+]

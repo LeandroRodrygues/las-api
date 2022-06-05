@@ -24,6 +24,14 @@ class Usuario {
       mockUsuarios.find((usuario) => usuario.nome === nome)
     );
   }
+
+  alterar(id) {
+    return Promise.resolve(mockUsuarios.find((usuario) => usuario.id == id));
+  }
+
+  excluir(id) {
+    return Promise.resolve(mockUsuarios.find((usuario) => usuario.id == id));
+  }
 }
 
 module.exports = new Usuario();

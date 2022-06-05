@@ -144,4 +144,42 @@ describe("API de usuários", () => {
       bairro: "Jacuipe",
     });
   });
+
+  test("Consultar usuário por nome inexistente", async () => {
+    const resp = await request.get("/usuarios/nome/zzzzz");
+    expect(resp.statusCode).toBe(404);
+    expect(resp.body).toEqual({});
+  });
+
+  test("Alterar usuário existente", async () => {
+    const resp = await await request.put("/usuarios/1").send({
+      id: 1,
+      nome: "Leandro teste",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/men/91.jpg",
+    });
+    expect(resp.statusCode).toBe(200);
+    expect(resp.body).toEqual({
+      id: 1,
+      nome: "Leandro teste",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/men/91.jpg",
+    });
+  });
+
+  test("Alterar Usuário Inexistente", async () => {
+    const resp = await request.put("/usuarios/99").send({
+      nome: "leandro",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/men/16.jpg",
+    });
+    expect(resp.statusCode).toBe(404);
+  });
+
+  test("Apagar Usuário Existente", async () => {
+    const resp = await request.delete("/usuarios/1");
+    expect(resp.statusCode).toBe(204);
+  });
+
+  test("Apagar Usuário Inexistente", async () => {
+    const resp = await request.delete("/usuarios/99");
+    expect(resp.statusCode).toBe(404);
+  });
 });
