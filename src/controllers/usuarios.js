@@ -10,7 +10,9 @@ module.exports = (app) => {
   app.post("/usuarios", (req, res) => {
     const usuarios = req.body;
     Usuarios.adicionar(usuarios)
-      .then((usuario) => (usuario ? res.json(usuario) : res.status(404)).end())
+      .then((resp) =>
+        resp ? res.status(201).json(resp) : res.status(404).end()
+      )
       .catch((erros) => res.status(400).json(erros));
   });
 

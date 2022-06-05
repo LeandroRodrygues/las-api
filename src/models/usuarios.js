@@ -26,9 +26,9 @@ class Usuarios {
         mensagem: "Nome deve ser informado e deve ser único",
       },
       {
-        nome: "urlFotoPerfil",
+        nome: "nome",
         valido: urlEhValida,
-        mensagem: "URL deve uma URL válida",
+        mensagem: "URL deve ser uma URL válida",
       },
     ];
 

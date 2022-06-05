@@ -76,10 +76,9 @@ describe("API de usuários", () => {
     expect(resp.statusCode).toBe(404);
   });
 
-  test("Inserir usuário com dados inválidos", async () => {
+  test("Adicionar usuários com dados inválidos", async () => {
     const resp = await request.post("/usuarios").send({
-      nome: "Leandro",
-      urlFotoPerfil: "https://randomuser.me/api/portraits/men/71.jpg",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/women/55.jpg",
     });
     expect(resp.statusCode).toBe(400);
     expect(resp.body).toEqual([
@@ -88,6 +87,61 @@ describe("API de usuários", () => {
         nome: "nome",
         valido: false,
       },
+      { mensagem: "URL deve ser uma URL válida", nome: "nome", valido: false },
     ]);
+  });
+
+  test("URL inválida", async () => {
+    const resp = await request.post("/usuarios").send({
+      urlFotoPerfil: "https://randomuser.me/api/portraits/women/55.jp",
+    });
+    expect(resp.statusCode).toBe(400);
+    expect(resp.body).toEqual([
+      {
+        mensagem: "Nome deve ser informado e deve ser único",
+        nome: "nome",
+        valido: false,
+      },
+      { mensagem: "URL deve ser uma URL válida", nome: "nome", valido: false },
+    ]);
+  });
+
+  test("Nome usuário único", async () => {
+    const resp = await request.post("/usuarios").send({
+      nome: "Leandro",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/women/55.jpg",
+    });
+    expect(resp.statusCode).toBe(400);
+    expect(resp.body).toEqual([
+      {
+        mensagem: "Nome deve ser informado e deve ser único",
+        nome: "nome",
+        valido: false,
+      },
+      { mensagem: "URL deve ser uma URL válida", nome: "nome", valido: false },
+    ]);
+  });
+
+  test("Consultar usuário por nome existente", async () => {
+    const resp = await request.get("/usuarios/nome/Leandro");
+    expect(resp.statusCode).toBe(200);
+    expect(resp.body).toEqual({
+      id: 1,
+      nome: "Leandro",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/men/91.jpg",
+      nomeCompleto: "Leandro g Rodrigues",
+      dataNascimento: "1985-11-09T02:00:00.000Z",
+      rg: "88120",
+      cpf: "02273985485",
+      telefone: "71999498364",
+      celular: "71999998564",
+      email: "leandro@gmail.com",
+      senha: "123456",
+      cep: "42800000",
+      endereco: "Rua santo antonio",
+      numero: 45,
+      complemento: "casa",
+      bairro: "Jacuipe",
+    });
   });
 });
