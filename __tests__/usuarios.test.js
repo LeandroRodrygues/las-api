@@ -91,6 +91,15 @@ describe("API de usuários", () => {
     ]);
   });
 
+  test("Adicionar usuários com dados válidos", async () => {
+    const resp = await request.post("/usuarios").send({
+      nome: "Josinalda Sena",
+      urlFotoPerfil: "https://randomuser.me/api/portraits/women/55.jpg",
+    });
+    expect(resp.statusCode).toBe(201);
+    expect(resp.body).toEqual();
+  });
+
   test("URL inválida", async () => {
     const resp = await request.post("/usuarios").send({
       urlFotoPerfil: "https://randomuser.me/api/portraits/women/55.jp",
@@ -181,5 +190,73 @@ describe("API de usuários", () => {
   test("Apagar Usuário Inexistente", async () => {
     const resp = await request.delete("/usuarios/99");
     expect(resp.statusCode).toBe(404);
+  });
+
+  test("Buscar Dados Pessoais por Id Existente", async () => {
+    const res = await request.get("/usuarios/1/dados-pessoais");
+    expect(res.body).toEqual({
+      id: 1,
+      nomeCompleto: "Leandro g Rodrigues",
+      dataNascimento: "1985-11-09T02:00:00.000Z",
+      rg: "88120",
+      cpf: "02273985485",
+    });
+    expect(res.statusCode).toBe(200);
+  });
+
+  test("Buscar Contatos por Id Existente", async () => {
+    const res = await request.get("/usuarios/1/contatos");
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toEqual({
+      id: 1,
+      telefone: "71999498364",
+      celular: "71999998564",
+      email: "leandro@gmail.com",
+    });
+  });
+
+  test("Buscar Usuário por endereço", async () => {
+    const res = await request.get("/usuarios/1/endereco");
+    expect(res.body).toEqual({
+      id: 1,
+      cep: "42800000",
+      endereco: "Rua santo antonio",
+      numero: 45,
+      complemento: "casa",
+    });
+  });
+
+  test("Alterar contato existente", async () => {
+    const resp = await await request.put("/usuarios/1").send({
+      id: 1,
+      telefone: "71999498284",
+      celular: "1234567897",
+      email: "leo@gmail.com",
+    });
+    expect(resp.statusCode).toBe(200);
+    expect(resp.body).toEqual({
+      id: 1,
+      telefone: "71999498284",
+      celular: "1234567897",
+      email: "leo@gmail.com",
+    });
+  });
+
+  test("Alterar endereço existente", async () => {
+    const resp = await await request.put("/usuarios/1").send({
+      id: 1,
+      cep: "42833000",
+      endereco: "Rua teste",
+      numero: 45,
+      complemento: "ap",
+    });
+    expect(resp.statusCode).toBe(200);
+    expect(resp.body).toEqual({
+      id: 1,
+      cep: "42833000",
+      endereco: "Rua teste",
+      numero: 45,
+      complemento: "ap",
+    });
   });
 });

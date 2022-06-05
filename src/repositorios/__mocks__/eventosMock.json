@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "nome": "aniversario",
+    "descricao": "primeiro evento",
+    "urlFoto": null,
+    "dataInicio": "2022-06-01",
+    "dataFim": "2022-06-14",
+    "status": "agendado"
+  },
+  {
+    "id": 2,
+    "nome": "casamento",
+    "descricao": "segundo evento",
+    "urlFoto": null,
+    "dataInicio": "2022-02-01",
+    "dataFim": "2022-12-31",
+    "status": "finalizado"
+  },
+  {
+    "id": 3,
+    "nome": "testes",
+    "descricao": "5252525252",
+    "urlFoto": null,
+    "dataInicio": "2022-05-01",
+    "dataFim": "2022-05-07",
+    "status": "em-andamento"
+  }
+]

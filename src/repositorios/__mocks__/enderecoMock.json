@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "cep": "42800000",
+    "endereco": "Rua santo antonio",
+    "numero": 45,
+    "complemento": "casa"
+  },
+  {
+    "id": 2,
+    "cep": "42835000",
+    "endereco": "Rua Sao salvador",
+    "numero": 30,
+    "complemento": "Ap"
+  }
+]
