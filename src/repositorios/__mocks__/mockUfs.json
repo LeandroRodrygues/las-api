@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+
+    "sigla": "AC",
+    "estado": "Acre",
+    "cidade": "Rio Branco"
+  },
+  {
+    "id": 2,
+
+    "sigla": "AL",
+    "estado": "Alagoas",
+    "cidade": "Maceió"
+  },
+  {
+    "id": 3,
+
+    "sigla": "AM",
+    "estado": "Amazonas",
+    "cidade": "Manaus"
+  },
+  {
+    "id": 4,
+
+    "sigla": "AP",
+    "estado": "Amapá",
+    "cidade": "Macapá"
+  },
+  {
+    "id": 5,
+
+    "sigla": "BA",
+    "estado": "Bahia",
+    "cidade": "Salvador"
+  }
+]

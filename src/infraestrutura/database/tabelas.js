@@ -71,7 +71,7 @@ class Tabelas {
 
   criarUFS() {
     const sql =
-      "CREATE TABLE IF NOT EXISTS UFs(id INT NOT NULL, sigla varchar(2), primary key(id))";
+      "CREATE TABLE IF NOT EXISTS UFs(id INT NOT NULL, sigla varchar(2), estado varchar(20), cidade varchar(20), primary key(id))";
 
     this.pool.query(sql, (erro) => {
       if (erro) {
